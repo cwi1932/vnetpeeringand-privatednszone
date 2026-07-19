@@ -9,9 +9,6 @@ resource "azurerm_resource_group" "rg" {
 
 data "azurerm_client_config" "current" {}
 
-resource "random_id" "keyvault_name" {
-  byte_length = 3
-}
 
 
 
