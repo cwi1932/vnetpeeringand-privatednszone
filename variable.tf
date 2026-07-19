@@ -1,9 +1,3 @@
-variable "ResourceGroupName" {
-  description = "Environment name"
-  type        = string
-
-}
-
 
 variable "location" {
   type        = string
