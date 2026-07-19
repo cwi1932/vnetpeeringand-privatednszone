@@ -2,10 +2,10 @@ name : Terraform CI/CD -Project2
 
 on:
   pull_request:
-     branches:[main]
+     branches: [main]
             
   push:
-      branches:[main]
+      branches: [main]
            
 env:
 
