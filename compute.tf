@@ -4,7 +4,7 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.App1VMNIC[count.index].id]
-  size                  = "Standard_B2s"
+  size                  = "Standard_B1s"
   admin_username        = "azureuser"
   admin_ssh_key {
     username   = "adminuser"
@@ -33,7 +33,7 @@ resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.AppVMNIC[count.index].id]
-  size                  = "Standard_B2s"
+  size                  = "Standard_B1s"
   admin_username        = "azureuser"
   admin_password        = azurerm_key_vault_secret.windows_admin_password.value
   identity {

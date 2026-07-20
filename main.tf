@@ -1,6 +1,6 @@
 resource "random_pet" "APP_RG1" {
   length    = 2
-  separator = "-"
+  separator = ""
 }
 resource "azurerm_resource_group" "rg" {
   name     = random_pet.APP_RG1.id
@@ -48,7 +48,7 @@ resource "azurerm_private_endpoint" "pe" {
 
 
 resource "azurerm_user_assigned_identity" "vm_identity" {
-  name                = "vm-identity${random_pet.APP_RG1.id}"
+  name                = "privatelink.blob.core.windows.net"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
@@ -61,6 +61,7 @@ resource "azurerm_key_vault" "keyvault" {
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
   tenant_id                  = data.azurerm_client_config.current.tenant_id
+  rbac_authorization_enabled = true
   sku_name                   = "standard"
   purge_protection_enabled   = false
   soft_delete_retention_days = 7
