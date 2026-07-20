@@ -65,17 +65,17 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pvlink" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "pvl" {
-  name                  = "pvlink-${random_pet.APP_RG1.id}"
+  name                  = "pvl-${random_pet.APP_RG1.id}"
   resource_group_name   = azurerm_resource_group.rg.name
   private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
-  virtual_network_id    = azurerm_virtual_network.vnetB.id
+  virtual_network_id    = azurerm_virtual_network.vnetA.id
   registration_enabled  = true
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "pv" {
   name                  = "pv-${random_pet.APP_RG1.id}"
   resource_group_name   = azurerm_resource_group.rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.pvszone.id
+  private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
   virtual_network_id    = azurerm_virtual_network.vnetB.id
 }
 
