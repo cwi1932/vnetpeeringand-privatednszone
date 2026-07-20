@@ -48,7 +48,7 @@ resource "azurerm_private_endpoint" "pe" {
 
 
 resource "azurerm_user_assigned_identity" "vm_identity" {
-  name                = "privatelink.blob.core.windows.net"
+  name                = "vm-identity-keenmongoose"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
