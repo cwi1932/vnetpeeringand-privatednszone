@@ -35,11 +35,11 @@ resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   network_interface_ids = [azurerm_network_interface.AppVMNIC[count.index].id]
   size                  = "Standard_B2s"
   admin_username        = "azureuser"
-  admin_password = azurerm_key_vault_secret.windows_admin_password.value
+  admin_password        = azurerm_key_vault_secret.windows_admin_password.value
   identity {
-  type         = "UserAssigned"
-  identity_ids = [azurerm_user_assigned_identity.vm_identity.id]
-}
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.vm_identity.id]
+  }
 
 
 
