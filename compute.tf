@@ -4,8 +4,8 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.App1VMNIC[count.index].id]
-  size                  = "Standard_B1s"
-  admin_username        = "azureuser"
+  size                  = "Standard_D2s_v7"
+  admin_username = "adminuser"
   admin_ssh_key {
     username   = "adminuser"
     public_key = tls_private_key.ssh.public_key_openssh
@@ -15,6 +15,7 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
+
 
 
   source_image_reference {
@@ -27,13 +28,36 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
 
 }
 
+resource "azurerm_virtual_machine_extension" "App1VMNGINX" {
+  count                = 3
+  name                 = "App1VMNGINX-${count.index + 1}"
+  virtual_machine_id   = azurerm_linux_virtual_machine.App1VMPROD[count.index].id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.1"
+
+
+settings = <<SETTINGS
+{
+  "script": "${base64encode(<<-SCRIPT
+#!/bin/bash
+apt update -y
+apt install nginx -y
+systemctl enable nginx
+systemctl start nginx
+SCRIPT
+)}"
+}
+SETTINGS
+
+}
 resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   count                 = 2
   name                  = "AppVM-${count.index + 1}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.AppVMNIC[count.index].id]
-  size                  = "Standard_B1s"
+  size                  = "Standard_D2s_v7"
   admin_username        = "azureuser"
   admin_password        = azurerm_key_vault_secret.windows_admin_password.value
   identity {
