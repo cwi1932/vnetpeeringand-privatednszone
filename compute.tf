@@ -19,7 +19,7 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-22_04-lts"
+    offer     = "0001-com-ubuntu-server-jammy"
     sku       = "22_04-lts"
     version   = "latest"
   }
@@ -29,15 +29,17 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
 
 resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   count                 = 2
-  name                  = "App1VM-${count.index + 1}"
+  name                  = "AppVM-${count.index + 1}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
-  network_interface_ids = [azurerm_network_interface.App1VMNIC[count.index].id]
+  network_interface_ids = [azurerm_network_interface.AppVMNIC[count.index].id]
   size                  = "Standard_B2s"
   admin_username        = "azureuser"
-  admin_password        = "P@ssword1234!"
-
-
+  admin_password = azurerm_key_vault_secret.windows_admin_password.value
+  identity {
+  type         = "UserAssigned"
+  identity_ids = [azurerm_user_assigned_identity.vm_identity.id]
+}
 
 
 
@@ -47,9 +49,9 @@ resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-windows-server-22_04-lts"
-    sku       = "22_04-lts"
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2022-datacenter-azure-edition"
     version   = "latest"
   }
 
@@ -70,14 +72,15 @@ resource "azurerm_network_interface" "App1VMNIC" {
 
 resource "azurerm_network_interface" "AppVMNIC" {
   count               = 2
-  name                = "App1VMNIC-${count.index + 1}"
+  name                = "AppVMNIC-${count.index + 1}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.subnetB_APP_RG1.id
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = "Dynamic"
+
   }
 }
 

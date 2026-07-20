@@ -4,8 +4,6 @@ output "resource_group_name" {
 }
 
 
-
-
 output "Azurerm_windows_virtual_machine_name" {
   description = "The name of the generated Resource Group"
   value       = azurerm_windows_virtual_machine.App1VMDEV[*].name
