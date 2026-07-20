@@ -5,7 +5,7 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.App1VMNIC[count.index].id]
   size                  = "Standard_D2s_v7"
-  admin_username = "adminuser"
+  admin_username        = "adminuser"
   admin_ssh_key {
     username   = "adminuser"
     public_key = tls_private_key.ssh.public_key_openssh
@@ -37,7 +37,7 @@ resource "azurerm_virtual_machine_extension" "App1VMNGINX" {
   type_handler_version = "2.1"
 
 
-settings = <<SETTINGS
+  settings = <<SETTINGS
 {
   "script": "${base64encode(<<-SCRIPT
 #!/bin/bash
