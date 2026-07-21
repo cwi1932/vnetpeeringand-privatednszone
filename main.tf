@@ -10,13 +10,13 @@ resource "azurerm_resource_group" "rg" {
 data "azurerm_client_config" "current" {}
 
 resource "random_password" "windows_admin_password" {
-  length      = 16
-  special     = true
+  length           = 16
+  special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
-  min_upper   = 1
-  min_lower   = 1
-  min_numeric = 1
-  min_special = 1
+  min_upper        = 1
+  min_lower        = 1
+  min_numeric      = 1
+  min_special      = 1
 }
 
 
