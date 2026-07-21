@@ -71,7 +71,7 @@ resource "azurerm_key_vault_secret" "windows_admin_password" {
   name         = "windows-admin-password"
   value        = random_password.windows_admin_password.result
   key_vault_id = azurerm_key_vault.keyvault.id
-   depends_on = [
+  depends_on = [
     azurerm_role_assignment.terraform_user_kv_role
   ]
 }
@@ -85,7 +85,7 @@ resource "azurerm_role_assignment" "linux_vm_kv_role" {
 }
 resource "azurerm_role_assignment" "terraform_user_kv_role" {
   scope                = azurerm_key_vault.keyvault.id
-  principal_id         = data.azurerm_client_config.current.object_id 
-  role_definition_name = "Key Vault Secrets Officer"                  
+  principal_id         = data.azurerm_client_config.current.object_id
+  role_definition_name = "Key Vault Secrets Officer"
 }
 
