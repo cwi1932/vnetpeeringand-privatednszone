@@ -51,7 +51,7 @@ resource "azurerm_virtual_network_peering" "vnetB-to-vnetA" {
 
 resource "azurerm_private_dns_zone" "pvszone" {
   name                = "privatelink.blob.core.windows.net"
-resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "pvlink" {
@@ -62,7 +62,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pvlink" {
 
   registration_enabled = true
 
-   # FORCE ISOLATION ORDER
+  # FORCE ISOLATION ORDER
   depends_on = [
     azurerm_private_dns_zone.pvszone
   ]
@@ -76,7 +76,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "pv" {
   private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
   virtual_network_id    = azurerm_virtual_network.vnetB.id
 
-   # FORCE ISOLATION ORDER
+  # FORCE ISOLATION ORDER
   depends_on = [
     azurerm_private_dns_zone.pvszone
   ]
