@@ -46,37 +46,40 @@ resource "azurerm_virtual_network_peering" "vnetB-to-vnetA" {
   virtual_network_name      = azurerm_virtual_network.vnetB.name
   remote_virtual_network_id = azurerm_virtual_network.vnetA.id
   allow_forwarded_traffic   = true
-  allow_gateway_transit     = true
+  allow_gateway_transit     = false
 }
 
 resource "azurerm_private_dns_zone" "pvszone" {
   name                = "privatelink.blob.core.windows.net"
-  resource_group_name = azurerm_resource_group.rg.name
-
+resource_group_name = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "pvlink" {
-  name                  = "pvlink-${random_pet.APP_RG1.id}"
+  name                  = "pv-vnetA-link"
   resource_group_name   = azurerm_resource_group.rg.name
   private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
   virtual_network_id    = azurerm_virtual_network.vnetA.id
 
   registration_enabled = true
+
+   # FORCE ISOLATION ORDER
+  depends_on = [
+    azurerm_private_dns_zone.pvszone
+  ]
 }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "pvl" {
-  name                  = "pvl-${random_pet.APP_RG1.id}"
-  resource_group_name   = azurerm_resource_group.rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
-  virtual_network_id    = azurerm_virtual_network.vnetA.id
-  registration_enabled  = true
-}
+
 
 resource "azurerm_private_dns_zone_virtual_network_link" "pv" {
-  name                  = "pv-${random_pet.APP_RG1.id}"
+  name                  = "pv-vnetB-link"
   resource_group_name   = azurerm_resource_group.rg.name
   private_dns_zone_name = azurerm_private_dns_zone.pvszone.name
   virtual_network_id    = azurerm_virtual_network.vnetB.id
+
+   # FORCE ISOLATION ORDER
+  depends_on = [
+    azurerm_private_dns_zone.pvszone
+  ]
 }
 
 resource "azurerm_private_dns_a_record" "privatednsrecord" {

@@ -48,7 +48,7 @@ resource "azurerm_private_endpoint" "pe" {
 
 
 resource "azurerm_user_assigned_identity" "vm_identity" {
-  name                = "vm-identity-keenmongoose"
+  name                = "vm-identity-${random_pet.APP_RG1.id}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
@@ -71,6 +71,9 @@ resource "azurerm_key_vault_secret" "windows_admin_password" {
   name         = "windows-admin-password"
   value        = random_password.windows_admin_password.result
   key_vault_id = azurerm_key_vault.keyvault.id
+   depends_on = [
+    azurerm_role_assignment.terraform_user_kv_role
+  ]
 }
 
 
@@ -79,5 +82,10 @@ resource "azurerm_role_assignment" "linux_vm_kv_role" {
   scope                = azurerm_key_vault.keyvault.id
   principal_id         = azurerm_user_assigned_identity.vm_identity.principal_id
   role_definition_name = "Key Vault Administrator"
+}
+resource "azurerm_role_assignment" "terraform_user_kv_role" {
+  scope                = azurerm_key_vault.keyvault.id
+  principal_id         = data.azurerm_client_config.current.object_id 
+  role_definition_name = "Key Vault Secrets Officer"                  
 }
 

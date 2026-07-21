@@ -1,0 +1,151 @@
+{
+  "version": 4,
+  "terraform_version": "1.7.5",
+  "serial": 2,
+  "lineage": "66108497-a1c9-1de9-7ade-224a7d09e529",
+  "outputs": {
+    "Azurerm_linux_virtual_machine_name": {
+      "value": {
+        "linux_vm_name": null,
+        "network_interface": null
+      },
+      "type": [
+        "object",
+        {
+          "linux_vm_name": "dynamic",
+          "network_interface": "dynamic"
+        }
+      ]
+    },
+    "Azurerm_windows_virtual_machine_name": {
+      "value": null,
+      "type": "dynamic"
+    },
+    "azurerm_key_vault_name": {
+      "value": null,
+      "type": "string"
+    },
+    "azurerm_linux_virtual_machine_private_IP_address": {
+      "value": {
+        "Currrent_subscription_ID": "9763551d-79b9-463b-a591-693f6a34b500",
+        "Linux_VM_IP": null,
+        "Resource_Group_Name_for_linux_VM": null,
+        "sensitive": true,
+        "vm_name": null
+      },
+      "type": [
+        "object",
+        {
+          "Currrent_subscription_ID": "string",
+          "Linux_VM_IP": "dynamic",
+          "Resource_Group_Name_for_linux_VM": "string",
+          "sensitive": "bool",
+          "vm_name": "dynamic"
+        }
+      ]
+    },
+    "azurerm_storage_account_name": {
+      "value": null,
+      "type": "string"
+    },
+    "azurerm_windows_virtual_machine_private_IP_address": {
+      "value": null,
+      "type": "dynamic",
+      "sensitive": true
+    },
+    "resource_group_name": {
+      "value": null,
+      "type": "string"
+    },
+    "ssh_private_key": {
+      "value": null,
+      "type": "string",
+      "sensitive": true
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "azurerm_client_config",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "client_id": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+            "id": "Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9NWE5OWY3YjEtYTY1My00YmJhLWI1YmItMjFmYzI5YjA2ZjQ2O3N1YnNjcmlwdGlvbklkPTk3NjM1NTFkLTc5YjktNDYzYi1hNTkxLTY5M2Y2YTM0YjUwMDt0ZW5hbnRJZD1kYzQ3OGJlMS02YzRiLTQxMTQtOGNlOC1kZjdhZGY4NjhmMTQ=",
+            "object_id": "5a99f7b1-a653-4bba-b5bb-21fc29b06f46",
+            "subscription_id": "9763551d-79b9-463b-a591-693f6a34b500",
+            "tenant_id": "dc478be1-6c4b-4114-8ce8-df7adf868f14",
+            "timeouts": null
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_private_dns_zone",
+      "name": "pvszone",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/9763551d-79b9-463b-a591-693f6a34b500/resourceGroups/trustingglider/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net",
+            "max_number_of_record_sets": 25000,
+            "max_number_of_virtual_network_links": 1000,
+            "max_number_of_virtual_network_links_with_registration": 100,
+            "name": "privatelink.blob.core.windows.net",
+            "number_of_record_sets": 1,
+            "resource_group_name": "trustingglider",
+            "soa_record": [
+              {
+                "email": "azureprivatedns-host.microsoft.com",
+                "expire_time": 2419200,
+                "fqdn": "privatelink.blob.core.windows.net.",
+                "host_name": "azureprivatedns.net",
+                "minimum_ttl": 10,
+                "refresh_time": 3600,
+                "retry_time": 300,
+                "serial_number": 1,
+                "tags": {},
+                "ttl": 3600
+              }
+            ],
+            "tags": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIwIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_private_dns_zone_virtual_network_link",
+      "name": "pvl",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/9763551d-79b9-463b-a591-693f6a34b500/resourceGroups/trustingglider/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net/virtualNetworkLinks/pvlink-trustingglider",
+            "name": "pvlink-trustingglider",
+            "private_dns_zone_name": "privatelink.blob.core.windows.net",
+            "registration_enabled": true,
+            "resolution_policy": "Default",
+            "resource_group_name": "trustingglider",
+            "tags": {},
+            "timeouts": null,
+            "virtual_network_id": "/subscriptions/9763551d-79b9-463b-a591-693f6a34b500/resourceGroups/trustingglider/providers/Microsoft.Network/virtualNetworks/vnetA-trustingglider"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjE4MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjoxODAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIwIn0="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
