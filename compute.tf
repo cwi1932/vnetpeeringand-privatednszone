@@ -161,11 +161,11 @@ resource "azurerm_network_security_group" "AppVMNSG" {
 
 }
 resource "azurerm_subnet_network_security_group_association" "_AppVMNSG" {
-  subnet_id                 = azurerm_subnet.subnetA_APP_RG1.id
+  subnet_id                 = azurerm_subnet.subnetB_APP_RG1.id
   network_security_group_id = azurerm_network_security_group.AppVMNSG.id
 }
 
 resource "azurerm_subnet_network_security_group_association" "_App1VMNSG" {
-  subnet_id                 = azurerm_subnet.subnetB_APP_RG1.id
+  subnet_id                 = azurerm_subnet.subnetA_APP_RG1.id
   network_security_group_id = azurerm_network_security_group.App1VMNSG.id
 }
