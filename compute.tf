@@ -38,18 +38,10 @@ resource "azurerm_virtual_machine_extension" "App1VMNGINX" {
 
 
   settings = <<SETTINGS
-{
-  "script": "${base64encode(<<-SCRIPT
-#!/bin/bash
-apt update -y
-apt install nginx -y
-systemctl enable nginx
-systemctl start nginx
-SCRIPT
-)}"
-}
+    {
+      "commandToExecute": "export DEBIAN_FRONTEND=noninteractive && while sudo fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do sleep 5; done && sudo apt-get update -y && sudo apt-get install -y nginx"
+    }
 SETTINGS
-
 }
 resource "azurerm_windows_virtual_machine" "App1VMDEV" {
   count                 = 1
