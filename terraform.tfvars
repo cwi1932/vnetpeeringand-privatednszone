@@ -1,1 +1,1 @@
-location = "East US"
+location = "denmarkeast"

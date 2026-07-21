@@ -1,10 +1,10 @@
 resource "azurerm_linux_virtual_machine" "App1VMPROD" {
-  count                 = 3
+  count                 = 1
   name                  = "App1VM-${count.index}"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.App1VMNIC[count.index].id]
-  size                  = "Standard_D2s_v3"
+  size                  = "Standard_B1s"
   admin_username        = "adminuser"
   admin_ssh_key {
     username   = "adminuser"
@@ -29,7 +29,7 @@ resource "azurerm_linux_virtual_machine" "App1VMPROD" {
 }
 
 resource "azurerm_virtual_machine_extension" "App1VMNGINX" {
-  count                = 3
+  count                = 1
   name                 = "App1VMNGINX-${count.index + 1}"
   virtual_machine_id   = azurerm_linux_virtual_machine.App1VMPROD[count.index].id
   publisher            = "Microsoft.Azure.Extensions"
@@ -52,12 +52,12 @@ SETTINGS
 
 }
 resource "azurerm_windows_virtual_machine" "App1VMDEV" {
-  count                 = 2
-  name                  = "AppVM-${count.index + 1}"
+  count                 = 1
+  name                  = "AppVM"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.AppVMNIC[count.index].id]
-  size                  = "Standard_D2s_v3"
+  size                  = "Standard_B1s"
   admin_username        = "azureuser"
   admin_password        = azurerm_key_vault_secret.windows_admin_password.value
   identity {
@@ -82,8 +82,8 @@ resource "azurerm_windows_virtual_machine" "App1VMDEV" {
 }
 
 resource "azurerm_network_interface" "App1VMNIC" {
-  count               = 3
-  name                = "App1VMNIC-${count.index + 1}"
+  count               = 1
+  name                = "App1VMNIC"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -95,8 +95,8 @@ resource "azurerm_network_interface" "App1VMNIC" {
 }
 
 resource "azurerm_network_interface" "AppVMNIC" {
-  count               = 2
-  name                = "AppVMNIC-${count.index + 1}"
+  count               = 1
+  name                = "AppVMNIC"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
